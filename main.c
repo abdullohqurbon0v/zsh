@@ -1,25 +1,24 @@
 #include <stdio.h>
 #include <string.h>
 #include "./lib/strlen.h"
+#include "./lib/strcat.h"
 #include "zsh.h"
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        printf("Usage: ./main <string>\n");
-        return 1;
-    }
+int main() {
+    char cmd[256];
 
-    char cmd[256] = {0};
-    for (int i = 1; i < argc; i++) {
-        strcat(cmd, argv[i]);
-        if (i < argc - 1) {
-            strcat(cmd, " ");
+    while (1) {
+        printf("zsh > ");
+        if (fgets(cmd, sizeof(cmd), stdin) == NULL) {
+            break;
         }
+        cmd[strcspn(cmd, "\n")] = 0;
+        if (strcmp(cmd, "exit") == 0) {
+            break;
+        }
+        zsh(cmd);
+        printf("Command Prompt: \"%s\"\n", cmd);
     }
-    zsh(cmd);
-
-    printf("Command Prompt: \"%s\"\n", cmd);
-    printf("Length: %d\n", my_strlen(cmd));
 
     return 0;
 }
