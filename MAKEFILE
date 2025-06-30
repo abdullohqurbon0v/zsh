@@ -1,0 +1,15 @@
+CC = gcc
+CFLAGS = -Wall -Iinclude
+
+SRC = main.c zsh.c lib/strlen.c
+OBJ = $(SRC:.c=.o)
+
+main: $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $(OBJ)
+
+# Правило для компиляции всех .c → .o, включая подкаталоги
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f *.o lib/*.o main
